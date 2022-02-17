@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  angular: 
+    build: 
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    command: ["npm", "run", "start"]
+    container_name: angular
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=dev
+    links: 
+      - express 
+
+  express: 
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: express
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "3000:3000"
+    environment:
+      - SECRET=fkhjghg
+      - PORT=3000
+      - NODE_ENV=development
+      - MONGO_DB_USERNAME=admin-user
+      - MONGO_DB_PASSWORD=admin-password
+      - MONGO_DB_HOST=database
+      - MONGO_DB_PORT=
+      - MONGO_DB_PARAMETERS=?authSource=admin
+      - MONGO_DB_DATABASE=bdeo-db
+    links:
+      - database
+
+  database:
+    image: mongo
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin-user
+      - MONGO_INITDB_ROOT_PASSWORD=admin-password
+      - MONGO_DB_USERNAME=admin-user
+      - MONGO_DB_PASSWORD=admin-password
+      - MONGO_DB=bdeo-db
+    volumes:
+      - ./database:/home/mongodb
+      - ./database/init-db.d/:/docker-entrypoint-initdb.d/
+      - ./database/db:/data/db
+    ports:
+      - "27017:27017"
