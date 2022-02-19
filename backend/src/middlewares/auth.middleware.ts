@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import AppError from '../util/error';
 import catchAsync from '../util/catchAsync';
 import { User } from '../models/user';
@@ -15,7 +15,7 @@ const getToken = (req: Request) => {
     return token;
 }
 
-export const protect = catchAsync(async (req, res, next) => {
+export const protect = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let token = getToken(req);
     if (!token) {
       return next(

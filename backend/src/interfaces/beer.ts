@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 import { Ingredient, Measure } from './Ingredient';
 import { Method } from '../interfaces/method';
 
-export type BeerDocument = Document & {
+export interface BeerDocument extends Document {
   name: string;
   tagline: string;
   first_brewed: string;

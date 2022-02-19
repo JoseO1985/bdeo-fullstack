@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import { Document } from 'mongoose';
 import environment from '../config/environment';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 
-export type UserDocument = mongoose.Document & {
+export interface UserDocument extends Document {
   name: string;
   email: string;
   password: string;

@@ -14,7 +14,6 @@ export const signup = async (name: string, email: string, password: string) => {
 
 export const signin = async (email: string, password: string) => {
   const user = await User.findOne({ email }).select('+password');
-  console.log({user})
   if (!user || !user.comparePassword(password)) return;
   const token = user.generateToken();
   return {user, token};
