@@ -14,5 +14,6 @@ export default {
       process.env.MONGO_DB_PARAMETERS
   },
   secret: process.env.JWT_SECRET,
+  secretExpiration: process.env.JWT_EXPIRE_IN,
   port: process.env.PORT
 };
