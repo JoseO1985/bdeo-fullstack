@@ -1,5 +1,4 @@
-import { FilterQuery, PaginateModel, Document } from 'mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, PaginateModel, Document, Model } from 'mongoose';
 import { getPagination } from '../util/query';
 
 export const paginate = (
