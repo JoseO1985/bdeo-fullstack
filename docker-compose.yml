@@ -22,17 +22,19 @@ services:
     container_name: express
     volumes:
       - ./backend:/backend
+    restart: always
     ports:
       - "3000:3000"
     environment:
-      - SECRET=fkhjghg
+      - JWT_SECRET=fkhjghg
+      - JWT_EXPIRE_IN=7d
       - PORT=3000
       - NODE_ENV=development
-      - MONGO_DB_USERNAME=bdeo-user
-      - MONGO_DB_PASSWORD=Admin666.Pass
+      - MONGO_DB_USERNAME=bdeo-user1
+      - MONGO_DB_PASSWORD=bdeo-pass1
       - MONGO_DB_HOST=database
-      - MONGO_DB_PORT=
-      - MONGO_DB_PARAMETERS=?authSource=admin
+      - MONGO_DB_PORT=27017
+      - MONGO_DB_PARAMETERS=?authSource=bdeo
       - MONGO_DB_DATABASE=bdeo
     links:
       - database
@@ -42,9 +44,9 @@ services:
     container_name: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=bdeo-user
-      - MONGO_INITDB_ROOT_PASSWORD=Admin666.Pass
-      - MONGO_DB_USERNAME=bdeo-user
-      - MONGO_DB_PASSWORD=Admin666.Pass
+      - MONGO_INITDB_ROOT_PASSWORD=bdeo-pass
+      - MONGO_DB_USERNAME=bdeo-user1
+      - MONGO_DB_PASSWORD=bdeo-pass1
       - MONGO_DB=bdeo
     volumes:
       - ./database:/home/mongodb
