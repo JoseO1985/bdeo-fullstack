@@ -1,5 +1,5 @@
 import { FilterQuery } from 'mongoose';
-import { Ingredient } from 'src/interfaces/Ingredient';
+import { Ingredient } from '../interfaces/ingredient';
 import { BeerDocument } from '../interfaces/beer';
 import { Beer } from '../models/beer';
 import { regexQuery } from '../util/query';
