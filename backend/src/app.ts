@@ -1,7 +1,7 @@
 import { json, urlencoded } from 'body-parser';
 import express from 'express';
 import cors from 'cors';
-import { mainRouter } from './routes/main';
+import { mainRouter } from './routes/main.route';
 import globalErrorHandler from './middlewares/error.middleware';
 
 const app = express();
