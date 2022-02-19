@@ -46,11 +46,11 @@ export const autocompleteName = catchAsync(async (req: Request, res: Response, n
   if (!name) {
     return next(new AppError('Missing autocomplete name!', 400));
   }
-  const beer = await beerService.autocompleteName(name);
+  const result = await beerService.autocompleteName(name);
   res.status(200).json({
     status: 'success',
     data: {
-      beer
+      ...result
     }
   });
 });
