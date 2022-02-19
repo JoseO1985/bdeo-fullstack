@@ -7,18 +7,18 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please tell us your name!']
+      required: [true, 'Missing name!']
     },
     email: {
       type: String,
-      required: [true, 'Please provide your email'],
+      required: [true, 'Missing email'],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, 'Please provide a valid email']
+      validate: [validator.isEmail, 'Invalid email']
     },
     password: {
       type: String,
-      required: [true, 'Please provide a password'],
+      required: [true, 'Missing password'],
       minlength: 8,
       select: false
     }
