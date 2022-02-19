@@ -28,12 +28,12 @@ services:
       - SECRET=fkhjghg
       - PORT=3000
       - NODE_ENV=development
-      - MONGO_DB_USERNAME=admin-user
-      - MONGO_DB_PASSWORD=admin-password
+      - MONGO_DB_USERNAME=bdeo-user
+      - MONGO_DB_PASSWORD=Admin666.Pass
       - MONGO_DB_HOST=database
       - MONGO_DB_PORT=
       - MONGO_DB_PARAMETERS=?authSource=admin
-      - MONGO_DB_DATABASE=bdeo-db
+      - MONGO_DB_DATABASE=bdeo
     links:
       - database
 
@@ -41,11 +41,11 @@ services:
     image: mongo
     container_name: mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin-user
-      - MONGO_INITDB_ROOT_PASSWORD=admin-password
-      - MONGO_DB_USERNAME=admin-user
-      - MONGO_DB_PASSWORD=admin-password
-      - MONGO_DB=bdeo-db
+      - MONGO_INITDB_ROOT_USERNAME=bdeo-user
+      - MONGO_INITDB_ROOT_PASSWORD=Admin666.Pass
+      - MONGO_DB_USERNAME=bdeo-user
+      - MONGO_DB_PASSWORD=Admin666.Pass
+      - MONGO_DB=bdeo
     volumes:
       - ./database:/home/mongodb
       - ./database/init-db.d/:/docker-entrypoint-initdb.d/
