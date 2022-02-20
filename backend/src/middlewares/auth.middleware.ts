@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import AppError from '../util/error';
 import catchAsync from '../util/catchAsync';
 import { User } from '../models/user';
+import * as repositoryService from '../services/repository.service';
 const jwt = require('jsonwebtoken');
 
 
@@ -24,7 +25,7 @@ export const protect = catchAsync(async (req: Request, res: Response, next: Next
     }
   
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    const currentUser = await User.findById(decoded._id);
+    const currentUser = await repositoryService.findOne(User, {_id: decoded._id });
     if (!currentUser) {
       return next(
         new AppError(

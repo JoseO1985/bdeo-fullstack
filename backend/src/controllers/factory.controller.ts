@@ -10,7 +10,7 @@ export const getOne = (model: Model<any, {}, {}>) =>
         return next(new AppError('Missing id param!', 400));
     }
 
-    let data = await repositoryService.getOne(id, model);
+    let data = await repositoryService.findOne(model, { _id: id });
 
     if (!data) {
       return next(new AppError('Record not found', 404));

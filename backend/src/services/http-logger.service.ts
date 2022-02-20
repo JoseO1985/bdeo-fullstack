@@ -1,5 +1,6 @@
 import { HttpRequest } from '../models/request';
 import { RequestData } from '../interfaces/request';
+import * as repositoryService from './repository.service';
 
 const getIp = (xForwardedFor: string, remoteAddress: string) => xForwardedFor || remoteAddress;
 
@@ -17,5 +18,5 @@ export const logRequest = (requestData: RequestData) => {
       params: JSON.stringify({params: requestData.params })
     }
   });
-  return httpRequest.save();
+  return repositoryService.create(HttpRequest, httpRequest);
 }
