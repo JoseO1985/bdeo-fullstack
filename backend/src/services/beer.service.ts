@@ -20,7 +20,6 @@ export const filterByName = (data: { name: string, page: string, size: string, s
   const { name, page, size, select } = data;
 
   const composedOrQuery = composeQuery(name, queryFilterBuilder);
-  console.log({or: JSON.stringify(composedOrQuery)})
 
   return repositoryService.paginate(Beer, page, size, select, composedOrQuery);
 };

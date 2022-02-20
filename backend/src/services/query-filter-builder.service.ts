@@ -4,7 +4,6 @@ export class QueryFilterBuilder {
     private filterResult: FilterQuery<Document>[] = [];
   
     setRegexFilter(fieldPath: string, value: string) {
-        console.log(value)
       if (fieldPath && value) {
         this.filterResult.push({ [fieldPath]: { $regex: new RegExp(value), $options: 'i' } });
       }
