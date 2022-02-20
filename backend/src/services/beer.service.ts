@@ -1,34 +1,36 @@
-import { FilterQuery } from 'mongoose';
 import { Ingredient } from '../interfaces/ingredient';
 import { BeerDocument } from '../interfaces/beer';
 import { Beer } from '../models/beer';
-import { regexQuery } from '../util/query';
 import * as repositoryService from './repository.service';
+import { QueryFilterBuilder } from './query-filter-builder.service';
 
-const getRegexNameQueries = (name: string) => ({
-  beerNameQuery: name ? regexQuery('name', name as string) : {},
-  maltNameQuery: name ? regexQuery('ingredients.malt.name', name as string) : {},
-  hopsNameQuery: name ? regexQuery('ingredients.hops.name', name as string) : {},
-  yeastNameQuery: name ? regexQuery('ingredients.yeast', name as string) : {}
-});
+function composeQuery(name: string, queryFilterBuilder: QueryFilterBuilder) {
+  return queryFilterBuilder
+  .setRegexFilter('name', name)
+  .setRegexFilter('ingredients.malt.name', name)
+  .setRegexFilter('ingredients.hops.name', name)
+  .setRegexFilter('ingredients.yeast', name)
+  .build('$or');
+}
 
-const getOrQuery = (queries: FilterQuery<BeerDocument>[]) => ({ $or: queries });
 const isPrefix = (prefix: string, str: string) => str.toLowerCase().includes(prefix);
 const prefixPositionInArray = (prefix: string, ingredients: Ingredient[]) => ingredients.findIndex(ingred => isPrefix(prefix, ingred.name));
 
-export const filterByName = (name: string, page: string, size: string, select: string | string[]) => {
-  const queriesByName = getRegexNameQueries(name);
-  const composedQueries = getOrQuery(Object.values(queriesByName));
+export const filterByName = (data: { name: string, page: string, size: string, select: string | string[] }, queryFilterBuilder: QueryFilterBuilder) => {
+  const { name, page, size, select } = data;
 
-  return repositoryService.paginate(Beer, page, size, select, composedQueries);
+  const composedOrQuery = composeQuery(name, queryFilterBuilder);
+  console.log({or: JSON.stringify(composedOrQuery)})
+
+  return repositoryService.paginate(Beer, page, size, select, composedOrQuery);
 };
 
-export const autocompleteName = async (name: string) => {
+export const autocompleteName = async (name: string, queryFilterBuilder: QueryFilterBuilder) => {
   const normalizedName = name.toLowerCase();
-  const queriesByName = getRegexNameQueries(normalizedName);
-  const composedQueries = getOrQuery(Object.values(queriesByName));
+  
+  const composedOrQuery = composeQuery(name, queryFilterBuilder);
 
-  const beer: BeerDocument = await repositoryService.findOne(Beer, composedQueries);
+  const beer: BeerDocument = await repositoryService.findOne(Beer, composedOrQuery);
   return autocompleteResult(beer, normalizedName);
 };
 

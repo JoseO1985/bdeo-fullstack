@@ -4,15 +4,19 @@ import * as beerService from '../services/beer.service';
 import AppError from '../util/error';
 import * as factoryController from '../controllers/factory.controller';
 import { Beer } from '../models/beer';
+import { QueryFilterBuilder } from '../services/query-filter-builder.service';
 
 export const getAllBeers = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const { page, size, name, select } = req.query;
-
+  const queryFilterBuilder: QueryFilterBuilder = new QueryFilterBuilder();
+    
   const data = await beerService.filterByName(
-    name as string,
-    page as string,
-    size as string,
-    select as string | string[]
+    {
+      name: req.query.name as string,
+      page: req.query.page as string,
+      size: req.query.size as string,
+      select: req.query.select as string | string[]
+    },
+    queryFilterBuilder
   );
 
   res.status(200).json({
@@ -32,7 +36,9 @@ export const autocompleteName = catchAsync(async (req: Request, res: Response, n
   if (!name) {
     return next(new AppError('Missing autocomplete name!', 400));
   }
-  const result = await beerService.autocompleteName(name);
+  const queryFilterBuilder: QueryFilterBuilder = new QueryFilterBuilder();
+
+  const result = await beerService.autocompleteName(name, queryFilterBuilder);
   res.status(200).json({
     status: 'success',
     data: {
