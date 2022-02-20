@@ -1,5 +1,10 @@
 import { FilterQuery, PaginateModel, Document, Model } from 'mongoose';
-import { getPagination } from '../util/query';
+
+export const getPagination = (page, size) => {
+  const limit = size ? +size : Number.MAX_SAFE_INTEGER;
+  const offset = page ? page * limit : 0;
+  return { limit, offset };
+};
 
 export const paginate = (
   model: PaginateModel<any, {}, {}>,
