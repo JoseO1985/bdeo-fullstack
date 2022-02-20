@@ -124,5 +124,3 @@ export const mostRepeatedIngredients = (limit: number = 10) => {
   { $project: {'result': '$result'}}
   ]);
 };
-
-export const model = Beer;
