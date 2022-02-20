@@ -3,6 +3,7 @@ import { authRouter } from './auth.route';
 import { beerRouter } from './beer.route';
 import * as authMiddleware from '../middlewares/auth.middleware';
 import * as httpLoggerMiddleware from '../middlewares/http-logger.middleware';
+import { userRouter } from './user.route';
 
 export const mainRouter = Router();
 
@@ -14,3 +15,4 @@ mainRouter.get('/', (_, res) => {
 
 mainRouter.use('/api/auth', authRouter);
 mainRouter.use('/api/beers', authMiddleware.protect, beerRouter);
+mainRouter.use('/api/users', authMiddleware.protect, userRouter);
