@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
+import { PaginateModel, Schema, model } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import { comparePassword, generateToken, UserDocument } from '../interfaces/user';
+import paginate from 'mongoose-paginate-v2';
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -42,4 +43,6 @@ userSchema.pre('save', async function save(next) {
 userSchema.methods.comparePassword = comparePassword;
 userSchema.methods.generateToken = generateToken;
 
-export const User = mongoose.model<UserDocument>('User', userSchema);
+userSchema.plugin(paginate);
+
+export const User = model<UserDocument, PaginateModel<UserDocument>>('User', userSchema);
