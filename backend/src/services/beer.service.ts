@@ -4,7 +4,7 @@ import { Beer } from '../models/beer';
 import * as repositoryService from './repository.service';
 import { QueryFilterBuilder } from './query-filter-builder.service';
 
-function composeQuery(name: string, queryFilterBuilder: QueryFilterBuilder) {
+const composeQuery = (name: string, queryFilterBuilder: QueryFilterBuilder) => {
   return queryFilterBuilder
   .setRegexFilter('name', name)
   .setRegexFilter('ingredients.malt.name', name)
@@ -81,7 +81,7 @@ export const mostRepeatedIngredients2 = (limit: number = 10) => {
   ]);
 };*/
 
-const getMaltHopsPipeline = () => [
+const getMaltHopsPipeline = (limit: number) => [
   {
     $project: {
       items: { $concatArrays: ['$ingredients.malt', '$ingredients.hops'] }
@@ -89,12 +89,12 @@ const getMaltHopsPipeline = () => [
   },
   { $unwind: '$items' },
   { $sortByCount: '$items.name' },
-  { $limit: 10 },
+  { $limit: limit },
   { $project: { count: 1 } }
   
 ];
 
-const getYeastPipeline = () => [
+const getYeastPipeline = (limit: number) => [
   {
     $project: {
       items: '$ingredients.yeast'
@@ -102,7 +102,7 @@ const getYeastPipeline = () => [
   },
   { $unwind: '$items' },
   { $sortByCount: '$items' },
-  { $limit: 10 },
+  { $limit: limit },
   { $project: { count: 1 } }
 ];
 
@@ -110,8 +110,8 @@ export const mostRepeatedIngredients = (limit: number = 10) => {
   return Beer.aggregate([
     {
       $facet: {
-        maltHops: getMaltHopsPipeline(),
-        yeast: getYeastPipeline()
+        maltHops: getMaltHopsPipeline(limit),
+        yeast: getYeastPipeline(limit)
       },
     },
     {
