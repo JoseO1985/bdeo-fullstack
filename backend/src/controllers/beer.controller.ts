@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import catchAsync from '../util/catchAsync';
-import * as repositoryService from '../services/repository.service';
 import * as beerService from '../services/beer.service';
 import AppError from '../util/error';
+import * as factoryController from '../controllers/factory.controller';
+import { Beer } from '../models/beer';
 
-export const all = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const getAllBeers = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { page, size, name, select } = req.query;
 
   const data = await beerService.filterByName(
@@ -21,21 +22,6 @@ export const all = catchAsync(async (req: Request, res: Response, next: NextFunc
       beers: data.docs,
       totalPages: data.totalPages,
       currentPage: data.page - 1
-    }
-  });
-});
-
-export const getBeer = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const beerId = req.params.beerId;
-
-  if (!beerId) {
-    return next(new AppError('Missing beer id!', 400));
-  }
-  const beer = await repositoryService.getOne(beerId, beerService.model);
-  res.status(200).json({
-    status: 'success',
-    data: {
-      beer
     }
   });
 });
@@ -64,3 +50,6 @@ export const getMostRepeated = catchAsync(async (req: Request, res: Response, ne
     }
   });
 });
+
+export const getBeer = factoryController.getOne(Beer);
+
