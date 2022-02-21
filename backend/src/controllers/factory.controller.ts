@@ -26,12 +26,12 @@ export const getOne = (model: Model<any, {}, {}>) =>
 
 export const getAll = (model:PaginateModel<any, {}, {}>) =>
   catchAsync(async (req, res, next) => {
-    const { page, size, select } = req.query;
+    const { page, size, select, sort, order } = req.query;
     let name;
     if (req.query.name)
         name = req.query.name;
 
-    const data = await repositoryService.paginate(model, page, size, select);
+    const data = await repositoryService.paginate(model, { page, size, select, sort, order });
 
     res.status(200).json({
       status: 'success',
