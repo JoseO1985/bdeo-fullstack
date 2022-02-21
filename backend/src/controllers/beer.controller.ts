@@ -65,12 +65,11 @@ export const topTen = catchAsync(async (req: Request, res: Response, next: NextF
   if ((limit && isNaN(+limit)) || (order && isNaN(+order)))
     return next(new AppError('Invalid parameters!', 400));
 
-
   const sortedBeers = await beerService.orderByDate('first_brewed', limit as unknown as number, order as unknown as number);
   res.status(200).json({
     status: 'success',
     data: {
-      ingredients: sortedBeers
+      beers: sortedBeers
     }
   });
 });
