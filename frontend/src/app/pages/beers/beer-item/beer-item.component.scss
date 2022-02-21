@@ -1,6 +1,10 @@
 mat-card {
   max-height: 350px;
   overflow: hidden;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
   img{
     object-fit: contain;
     width: 100%;
