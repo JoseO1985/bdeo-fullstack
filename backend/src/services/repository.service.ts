@@ -8,13 +8,18 @@ export const getPagination = (page, size) => {
 
 export const paginate = (
   model: PaginateModel<any, {}, {}>,
-  page?: string,
-  size?: string,
-  select?: string | string[],
+  data: { 
+    page?: string,
+    size?: string,
+    select?: string | string[],
+    sort?: string,
+    order?: string
+  },
   filter: FilterQuery<any> = {}
 ) => {
+  const { page, size, select, sort, order } = data;
   const { limit, offset } = getPagination(page, size);
-  return model.paginate(filter, { offset, limit, select });
+  return model.paginate(filter, { offset, limit, select, sort: { [sort]: order} });
 };
 
 export const findOne = (model: Model<any, {}, {}>, query: FilterQuery<Document>) => {
