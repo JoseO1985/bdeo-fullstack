@@ -1,6 +1,8 @@
 <app-header></app-header>
-<app-sidebar></app-sidebar>
-<section class="main-container">
-  <router-outlet></router-outlet>
+<section fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+  <section class="main-container" fxFlex="75%" fxFlex.xs="100%" fxFlex.sm="100%">
+    <router-outlet></router-outlet>
+  </section>
+  <app-sidebar fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%"></app-sidebar>
 </section>
 <app-footer></app-footer>
