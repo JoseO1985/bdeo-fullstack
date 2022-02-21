@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="isAuthenticated$ | async">
   <h2>Top Ten</h2>
   <mat-list *ngIf="(beers$ | async) as beers">
     <mat-list-item *ngFor="let beer of beers" [routerLink]="['beers' + beer._id]">
