@@ -27,3 +27,10 @@ export interface Beer {
   brewers_tips: string;
   contributed_by: string;
 };
+
+export interface BeerApiData {
+  totalItems: number;
+  beers: Beer[];
+  totalPages: number;
+  currentPage: number;
+}
