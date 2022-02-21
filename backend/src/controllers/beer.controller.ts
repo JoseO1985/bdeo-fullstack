@@ -14,7 +14,7 @@ export const getAllBeers = catchAsync(async (req: Request, res: Response, next: 
       name: req.query.name as string,
       page: req.query.page as string,
       size: req.query.size as string,
-      select: req.query.select as string | string[]
+      select: req.query.select  ? (req.query.select as string).split(','): null
     },
     queryFilterBuilder
   );
