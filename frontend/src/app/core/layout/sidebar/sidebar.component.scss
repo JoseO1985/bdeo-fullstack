@@ -1,0 +1,33 @@
+h2 {
+  text-align: center;
+}
+
+mat-list {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+::ng-deep .mat-list-item-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: start !important;
+  padding-left: 40px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::ng-deep mat-list-item {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  height: 100px !important;
+  img {
+    object-fit: contain;
+    height: 70px;
+    width: 50px;
+    position: absolute;
+    left: -14px;
+    top: -16px;
+  }
+}
