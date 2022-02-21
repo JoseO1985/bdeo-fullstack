@@ -62,7 +62,7 @@ export const getMostRepeated = catchAsync(async (req: Request, res: Response, ne
 export const topTen = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { limit, order } = req.query;
 
-  if (isNaN(+limit) || isNaN(+order))
+  if ((limit && isNaN(+limit)) || (order && isNaN(+order)))
     return next(new AppError('Invalid parameters!', 400));
 
 
