@@ -1,0 +1,24 @@
+<div class="content">
+  <h2>Search beers</h2>
+  <mat-form-field>
+    <input matInput placeholder="Search Beers" [matAutocomplete]="auto"
+      [formControl]="searchBeersCtrl" placeholder="Min 3 Characters Ex. Ash">
+    <button *ngIf="selectedBeer" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete [panelWidth]="400" #auto="matAutocomplete" (optionSelected)="onSelected($event)">
+      <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let beer of filteredBeers" [value]="beer">
+          <span><b>{{beer.name}}</b></span>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <br>
+
+  <ng-container *ngIf="errorMsg;">
+    {{errorMsg}}
+  </ng-container>
+</div>

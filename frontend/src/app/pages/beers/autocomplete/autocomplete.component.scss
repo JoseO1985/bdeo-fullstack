@@ -1,0 +1,11 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  max-width: 200px;
+}
+::ng-deep .cdk-overlay-pane {
+  width: 200px !important;
+}
