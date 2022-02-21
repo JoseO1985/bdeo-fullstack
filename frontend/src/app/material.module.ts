@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatListModule} from '@angular/material/list';
 
 const materialModules = [
   MatToolbarModule,
@@ -24,7 +25,8 @@ const materialModules = [
   MatButtonModule,
   MatTableModule,
   MatPaginatorModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatListModule
 ];
 
 @NgModule({
