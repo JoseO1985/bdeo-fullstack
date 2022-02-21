@@ -3,6 +3,7 @@ import { BeerDocument } from '../interfaces/beer';
 import { Beer } from '../models/beer';
 import * as repositoryService from './repository.service';
 import { QueryFilterBuilder } from './query-filter-builder.service';
+import { splitAndConvertAgregation, getMaltHopsPipeline, getYeastPipeline } from '../util/agregations';
 
 const composeQuery = (name: string, queryFilterBuilder: QueryFilterBuilder) => {
   return queryFilterBuilder
@@ -16,22 +17,25 @@ const composeQuery = (name: string, queryFilterBuilder: QueryFilterBuilder) => {
 const isPrefix = (prefix: string, str: string) => str.toLowerCase().includes(prefix);
 const prefixPositionInArray = (prefix: string, ingredients: Ingredient[]) => ingredients.findIndex(ingred => isPrefix(prefix, ingred.name));
 
-export const filterByName = (data: { name: string, page: string, size: string, select: string | string[] }, queryFilterBuilder: QueryFilterBuilder) => {
-  const { name, page, size, select } = data;
 
+
+export const filterByName = (data: { name: string, page: string, size: string, select: string | string[], sort: string, order: string }, queryFilterBuilder: QueryFilterBuilder) => {
+  const { name, page, size, select, sort, order } = data;
   const composedOrQuery = composeQuery(name, queryFilterBuilder);
-
-  return repositoryService.paginate(Beer, page, size, select, composedOrQuery);
+  return repositoryService.paginate(Beer, { page, size, select, sort, order }, composedOrQuery);
 };
+
+
+
 
 export const autocompleteName = async (name: string, queryFilterBuilder: QueryFilterBuilder) => {
   const normalizedName = name.toLowerCase();
-  
   const composedOrQuery = composeQuery(name, queryFilterBuilder);
-
   const beer: BeerDocument = await repositoryService.findOne(Beer, composedOrQuery);
   return autocompleteResult(beer, normalizedName);
 };
+
+
 
 const autocompleteResult = (beer: BeerDocument, normalizedName: string) => {
   if (beer){
@@ -81,31 +85,6 @@ export const mostRepeatedIngredients2 = (limit: number = 10) => {
   ]);
 };*/
 
-const getMaltHopsPipeline = (limit: number) => [
-  {
-    $project: {
-      items: { $concatArrays: ['$ingredients.malt', '$ingredients.hops'] }
-    }
-  },
-  { $unwind: '$items' },
-  { $sortByCount: '$items.name' },
-  { $limit: limit },
-  { $project: { count: 1 } }
-  
-];
-
-const getYeastPipeline = (limit: number) => [
-  {
-    $project: {
-      items: '$ingredients.yeast'
-    }
-  },
-  { $unwind: '$items' },
-  { $sortByCount: '$items' },
-  { $limit: limit },
-  { $project: { count: 1 } }
-];
-
 export const mostRepeatedIngredients = (limit: number = 10) => {
   return Beer.aggregate([
     {
@@ -125,3 +104,30 @@ export const mostRepeatedIngredients = (limit: number = 10) => {
   { $project: {'result': '$result'}}
   ]);
 };
+
+export const orderByDate = (field: string, limit = 10, order = -1) => {
+  console.log(order, limit)
+  return Beer.aggregate([
+    {
+      $addFields: {
+        date: {
+          $dateFromParts: {
+            year: splitAndConvertAgregation(field, 1),
+            month: splitAndConvertAgregation(field, 0)
+          }
+        }
+      }
+    },
+    {
+      $sort: {
+        date: +order
+      }
+    },
+    { $limit: +limit },
+    {
+      $project: {
+        date: 0
+      }
+    }
+  ]);
+}

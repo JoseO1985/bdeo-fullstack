@@ -14,7 +14,9 @@ export const getAllBeers = catchAsync(async (req: Request, res: Response, next: 
       name: req.query.name as string,
       page: req.query.page as string,
       size: req.query.size as string,
-      select: req.query.select  ? (req.query.select as string).split(','): null
+      select: req.query.select  ? (req.query.select as string).split(','): null,
+      sort: req.query.sort as string,
+      order: req.query.order as string
     },
     queryFilterBuilder
   );
@@ -53,6 +55,22 @@ export const getMostRepeated = catchAsync(async (req: Request, res: Response, ne
     status: 'success',
     data: {
       ingredients: ingredients.length > 0 ? ingredients[0].result : []
+    }
+  });
+});
+
+export const topTen = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const { limit, order } = req.query;
+
+  if (isNaN(+limit) || isNaN(+order))
+    return next(new AppError('Invalid parameters!', 400));
+
+
+  const sortedBeers = await beerService.orderByDate('first_brewed', limit as unknown as number, order as unknown as number);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      ingredients: sortedBeers
     }
   });
 });
