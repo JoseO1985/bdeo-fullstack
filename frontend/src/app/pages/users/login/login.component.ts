@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-      this.loading = true;
       this.loginService
         .login(
           this.loginForm.controls['email'].value,
@@ -46,12 +45,10 @@ export class LoginComponent implements OnInit {
         )
         .subscribe(
           data => {
-            this.loading = false;
             this.router.navigate([this.returnUrl]);
           },
           ({error}) => {
             this.toastrService.error(error.message);
-            this.loading = false;
           }
         );
     } else {
