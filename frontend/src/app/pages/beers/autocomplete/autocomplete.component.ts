@@ -5,7 +5,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs';
 import { BeersService } from '../beers.service';
-import { Beer, BeerApiData } from '../models/beer';
+import { Beer, BeerListApiData } from '../models/beer';
 
 @Component({
   selector: 'app-autocomplete',
@@ -16,7 +16,7 @@ export class AutocompleteComponent implements OnInit {
 
   minLengthTerm = 3;
   searchBeersCtrl: FormControl = new FormControl();
-  beersData!: BeerApiData | undefined;
+  beersData!: BeerListApiData | undefined;
   filteredBeers: Beer[] = [];
   errorMsg = "";
   selectedBeer!: Beer | undefined;

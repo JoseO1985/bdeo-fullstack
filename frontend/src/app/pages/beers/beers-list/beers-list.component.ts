@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { BeersService } from '../beers.service';
-import { Beer, BeerApiData } from '../models/beer';
+import { Beer, BeerListApiData } from '../models/beer';
 
 @Component({
   selector: 'app-beers-list',
@@ -13,7 +13,7 @@ import { Beer, BeerApiData } from '../models/beer';
 })
 export class BeersListComponent implements OnInit {
 
-  beersData!: BeerApiData | undefined;
+  beersData!: BeerListApiData | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource: MatTableDataSource<Beer> = new MatTableDataSource<Beer>();
   totalItems = 0;
