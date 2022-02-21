@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from '../../../environments/environment';
-import { Beer } from './models/beer';
+import { map, take } from 'rxjs';
+import { ApiResponse } from '../../core/models/response';
+import { BeerApiData } from './models/beer';
 
 @Injectable()
 export class BeersService {
@@ -9,7 +11,12 @@ export class BeersService {
     private http: HttpClient
   ) {}
 
-  getAll() {
-    return this.http.get<Beer>(environment.apiBaseUrl + "/beers");
+  getAll(params: HttpParams) {
+    return this.http.get<ApiResponse>(environment.apiBaseUrl + '/beers', {params}).pipe(
+        map(({data}) => data as BeerApiData),
+        take(1)
+      ).toPromise();
   }
+
+
 }
