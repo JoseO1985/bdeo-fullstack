@@ -2,6 +2,7 @@ import { Ingredient, Measure } from './ingredient';
 import { Method } from './method';
 
 export interface Beer {
+  _id: string;
   name: string;
   tagline: string;
   first_brewed: string;
@@ -28,7 +29,7 @@ export interface Beer {
   contributed_by: string;
 };
 
-export interface BeerApiData {
+export interface BeerListApiData {
   totalItems: number;
   beers: Beer[];
   totalPages: number;
