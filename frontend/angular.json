@@ -34,7 +34,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -79,7 +80,8 @@
               "browserTarget": "web:build:production"
             },
             "development": {
-              "browserTarget": "web:build:development"
+              "browserTarget": "web:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
