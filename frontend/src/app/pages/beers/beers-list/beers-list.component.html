@@ -1,4 +1,7 @@
-<p>beers-list works!</p>
-<div>
-  {{ beers$ | async | json }}
+<app-autocomplete></app-autocomplete>
+<mat-paginator #paginator [length]="totalItems" [pageIndex]="currentPage" [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page"></mat-paginator>
+<div class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
+  <app-beer-item [beer]="beer" *ngFor="let beer of dataSource.data" fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%"
+    fxLayoutAlign=" stretch"></app-beer-item>
 </div>
