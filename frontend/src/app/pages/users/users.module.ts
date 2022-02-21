@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SharedModule } from '../../shared/shared/shared.module';
 import { LoginService } from './login/login.service';
+import { BeersService } from '../beers/beers.service';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { LoginService } from './login/login.service';
     UsersRoutingModule
   ],
   providers: [
-    LoginService
+    LoginService,
+    BeersService
   ]
 })
 export class UsersModule { }
