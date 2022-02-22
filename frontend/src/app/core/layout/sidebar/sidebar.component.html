@@ -1,7 +1,7 @@
-<div *ngIf="isAuthenticated$ | async">
+<div>
   <h2>Top Ten</h2>
   <mat-list *ngIf="(beers$ | async) as beers">
-    <mat-list-item *ngFor="let beer of beers" [routerLink]="['beers' + beer._id]">
+    <mat-list-item *ngFor="let beer of beers" [routerLink]="['/beers/' + beer._id]">
       <img [src]="beer?.image_url">
       {{ beer?.name }}
       <p><span>First brewed: </span>{{ beer?.first_brewed }}</p>
