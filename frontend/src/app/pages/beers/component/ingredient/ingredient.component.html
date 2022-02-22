@@ -1,0 +1,6 @@
+<div>
+  <p><strong>{{ type }}</strong></p>
+  <ul>
+    <li *ngFor="let ingredient of ingredients"><strong>Name:</strong> {{ ingredient.name }} <strong>Amount:</strong> {{ ingredient.amount.value }} {{ ingredient.amount.unit}}</li>
+  </ul>
+</div>
