@@ -1,9 +1,9 @@
-<div *ngIf="beer$ | async as beer; else empty" class="beer-item" fxLayout="row" fxLayoutGap="32px grid" fxLayout.xs="column" fxLayout.sm="column">
-  <div class="title-image">
+<div *ngIf="beer$ | async as beer; else empty" class="beer-item" fxLayout="row" fxLayoutGap="32px grid" fxLayout.xs="column" fxLayout.sm="column" >
+  <div class="title-image" fxFlex="30%">
     <h2>{{ beer.name }}</h2>
     <img [src]="beer.image_url" alt="beer image" title="beer.name" fxFlexFill>
   </div>
-  <div class="description">
+  <div class="description" fxFlex="70%">
     <h3>{{ beer.tagline }}</h3>
     <p>{{ beer.description }}</p>
     <app-property [property]="'First Brewed'" [value]="beer.first_brewed"></app-property>

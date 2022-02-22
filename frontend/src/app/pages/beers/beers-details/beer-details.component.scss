@@ -2,6 +2,14 @@
   margin-top: 60px;
 }
 
+.title-image {
+  img {
+    object-fit: contain;
+    min-height: 100px !important;
+    max-height: 700px;
+  }
+}
+
 @media (max-width: 768px) {
   .beer-item {
     margin: 0px !important;
