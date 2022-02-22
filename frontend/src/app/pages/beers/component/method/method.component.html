@@ -1,0 +1,16 @@
+<div>
+  <p><strong>Mash Temp</strong></p>
+  <ul>
+    <li *ngFor="let elem of method.mash_temp">
+      <p><strong>Temp:</strong> {{ elem.temp.value }} {{ elem.temp.unit}}</p>
+      <p *ngIf="elem.duration"><strong>Duration:</strong> {{ elem.duration }}</p>
+    </li>
+  </ul>
+  <p><strong>Fermentation</strong></p>
+  <ul>
+    <li><strong>Temp:</strong> {{ method.fermentation.temp.value }} {{ method.fermentation.temp.unit }}</li>
+  </ul>
+  <ul *ngIf="method.twist">
+    <li><strong>Twist:</strong> {{ method.twist }}</li>
+  </ul>
+</div>
