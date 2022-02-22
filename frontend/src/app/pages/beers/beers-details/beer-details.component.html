@@ -1,1 +1,29 @@
-<p>beer-details works!</p>
+<div *ngIf="beer$ | async as beer; else empty" class="beer-item" fxLayout="row" fxLayoutGap="32px grid" fxLayout.xs="column" fxLayout.sm="column">
+  <div class="title-image">
+    <h2>{{ beer.name }}</h2>
+    <img [src]="beer.image_url" alt="beer image" title="beer.name" fxFlexFill>
+  </div>
+  <div class="description">
+    <h3>{{ beer.tagline }}</h3>
+    <p>{{ beer.description }}</p>
+    <app-property [property]="'First Brewed'" [value]="beer.first_brewed"></app-property>
+    <app-property [property]="'Abv'" [value]="beer.abv"></app-property>
+    <app-property [property]="'Ibu'" [value]="beer.ibu"></app-property>
+    <app-property [property]="'Target fg'" [value]="beer.target_fg"></app-property>
+    <app-property [property]="'Target og'" [value]="beer.target_og"></app-property>
+    <app-property [property]="'Ebc'" [value]="beer.ebc"></app-property>
+    <app-property [property]="'Srm'" [value]="beer.srm"></app-property>
+    <app-property [property]="'Ph'" [value]="beer.ph"></app-property>
+    <app-property [property]="'Attenuation level'" [value]="beer.attenuation_level"></app-property>
+    <app-property [property]="'Volume'" [value]="beer.volume.value" [unit]="beer.volume.unit"></app-property>
+    <app-property [property]="'Boil Volume'" [value]="beer.boil_volume.value" [unit]="beer.boil_volume.unit"></app-property>
+    <app-method [method]="beer.method"></app-method>
+    <app-ingredient [type]="'Malt'" [ingredients]="beer.ingredients.malt"></app-ingredient>
+    <app-ingredient [type]="'Hops'" [ingredients]="beer.ingredients.hops"></app-ingredient>
+    <app-simple-ingredient [type]="'Yeast'" [name]="beer.ingredients.yeast"></app-simple-ingredient>
+    <app-food-pairing [foodPairing]="beer.food_pairing"></app-food-pairing>
+    <app-property [property]="'Brewers tips'" [value]="beer.brewers_tips"></app-property>
+    <app-property [property]="'Contributed by'" [value]="beer.contributed_by"></app-property>
+  </div>
+</div>
+<ng-template #empty></ng-template>
