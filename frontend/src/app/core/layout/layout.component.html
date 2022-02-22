@@ -1,8 +1,8 @@
 <app-header></app-header>
 <section fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
-  <section class="main-container" fxFlex="75%" fxFlex.xs="100%" fxFlex.sm="100%">
+  <section class="main-container" fxFlex="isAuthenticated$ | async ? 75% : 100%" fxFlex.xs="100%" fxFlex.sm="100%">
     <router-outlet></router-outlet>
   </section>
-  <app-sidebar fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%"></app-sidebar>
+  <app-sidebar fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%" *ngIf="isAuthenticated$ | async"></app-sidebar>
 </section>
 <!--<app-footer></app-footer>-->
