@@ -106,7 +106,6 @@ export const mostRepeatedIngredients = (limit: number = 10) => {
 };
 
 export const orderByDate = (field: string, limit = 10, order = -1) => {
-  console.log(order, limit)
   return Beer.aggregate([
     {
       $addFields: {
