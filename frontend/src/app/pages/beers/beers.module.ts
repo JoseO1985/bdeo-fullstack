@@ -8,6 +8,11 @@ import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { BeersService } from './beers.service';
 import { BeerItemComponent } from './beer-item/beer-item.component';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { IngredientComponent } from './component/ingredient/ingredient.component';
+import { SimpleIngredientComponent } from './component/simple-ingredient/simple-ingredient.component';
+import { MethodComponent } from './component/method/method.component';
+import { PropertyComponent } from './component/property/property.component';
+import { FoodPairingComponent } from './component/food-pairing/food-pairing.component';
 
 
 @NgModule({
@@ -15,7 +20,12 @@ import { AutocompleteComponent } from './autocomplete/autocomplete.component';
     BeersListComponent,
     BeerDetailsComponent,
     BeerItemComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    IngredientComponent,
+    SimpleIngredientComponent,
+    MethodComponent,
+    PropertyComponent,
+    FoodPairingComponent,
   ],
   imports: [
     SharedModule,
@@ -23,7 +33,7 @@ import { AutocompleteComponent } from './autocomplete/autocomplete.component';
     BeersRoutingModule
   ],
   providers: [
-    BeersService
+    BeersService,
   ]
 })
 export class BeersModule { }
