@@ -23,4 +23,12 @@ export class BeersService {
       map(({data}) => data.beers as Beer[]),
     );
   }
+
+  getById(id: string) {
+    return this.http.get<ApiResponse>(environment.apiBaseUrl + `/beers/${id}`).pipe(
+      map(({data}) => {
+        return data.data as Beer
+        })
+    );
+  }
 }
