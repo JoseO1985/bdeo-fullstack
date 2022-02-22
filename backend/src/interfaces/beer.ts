@@ -16,7 +16,7 @@ export interface BeerDocument extends Document {
   srm: number;
   ph: number;
   attenuation_level: number;
-  volumen: Measure;
+  volume: Measure;
   boil_volume: Measure;
   method: Method;
   ingredients: {
