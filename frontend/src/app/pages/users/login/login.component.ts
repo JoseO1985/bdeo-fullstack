@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, of } from 'rxjs';
 import { LoginService } from './login.service';
 
 @Component({
@@ -13,20 +14,17 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   loading = false;
-  returnUrl = "";
 
   constructor(
-    private loginService: LoginService,
+    public loginService: LoginService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService
+    public router: Router,
+    public toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.createForm();
     this.loginService.logout();
-    this.returnUrl = this.route.snapshot.queryParams[`returnUrl`] || "/";
   }
 
   createForm(): void {
@@ -42,13 +40,15 @@ export class LoginComponent implements OnInit {
         .login(
           this.loginForm.controls['email'].value,
           this.loginForm.controls['password'].value
-        )
-        .subscribe(
-          data => {
-            this.router.navigate([this.returnUrl]);
-          },
-          ({error}) => {
-            this.toastrService.error(error.message);
+        ).pipe(
+          catchError(e=> of({error: e })
+        ))
+        .subscribe(data => {
+            if (data && !data.error) {
+              this.router.navigate(['/']);
+              return;
+            }
+            this.toastrService.error(data.error);
           }
         );
     } else {

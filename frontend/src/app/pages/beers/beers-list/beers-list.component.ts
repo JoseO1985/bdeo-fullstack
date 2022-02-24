@@ -31,10 +31,6 @@ export class BeersListComponent implements OnInit {
     this.loadData();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
   async loadData() {
     try {
       const params = new HttpParams()
@@ -57,7 +53,6 @@ export class BeersListComponent implements OnInit {
   }
 
   async pageChanged(event: PageEvent) {
-    console.log({ event });
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     await this.loadData();
