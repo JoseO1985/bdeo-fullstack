@@ -4,7 +4,7 @@ import app from '../../../app';
 describe('The register process', () => {
 
     it('should register a new user', async () => {
-        const response = await supertest(app).post('/api/auth/login').send({
+        const response = await supertest(app).post('/api/auth/signup').send({
             name: 'name',
             email: 'email',
             password: 'password'
