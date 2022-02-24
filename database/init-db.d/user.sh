@@ -1,12 +1,12 @@
-#!/bin/bash
-set -e
+#!/usr/bin/sh
 
-mongo <<EOF
-use $MONGO_DB
-db.createUser({
-  user: '$MONGO_DB_USERNAME',
-  pwd:  '$MONGO_DB_PASSWORD',
-  roles: [
-     { role: 'readWrite', db: '$MONGO_DB'}]
-})
+mongo -- "$MONGO_DB" <<EOF
+    var rootUser = '$MONGO_INITDB_ROOT_USERNAME';
+    var rootPassword = '$MONGO_INITDB_ROOT_PASSWORD';
+    var admin = db.getSiblingDB('admin');
+    admin.auth(rootUser, rootPassword);
+
+    var user = '$MONGO_INITDB_ROOT_USERNAME';
+    var passwd = '$MONGO_INITDB_ROOT_PASSWORD';
+    db.createUser({user: user, pwd: passwd, roles: ["readWrite"]});
 EOF

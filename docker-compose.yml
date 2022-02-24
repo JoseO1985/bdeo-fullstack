@@ -30,8 +30,8 @@ services:
       - JWT_EXPIRE_IN=7d
       - PORT=3000
       - NODE_ENV=development
-      - MONGO_DB_USERNAME=bdeo-user1
-      - MONGO_DB_PASSWORD=bdeo-pass1
+      - MONGO_DB_USERNAME=bdeo-user
+      - MONGO_DB_PASSWORD=bdeo-pass
       - MONGO_DB_HOST=database
       - MONGO_DB_PORT=27017
       - MONGO_DB_PARAMETERS=?authSource=bdeo
@@ -45,8 +45,6 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=bdeo-user
       - MONGO_INITDB_ROOT_PASSWORD=bdeo-pass
-      - MONGO_DB_USERNAME=bdeo-user1
-      - MONGO_DB_PASSWORD=bdeo-pass1
       - MONGO_DB=bdeo
     volumes:
       - ./database:/home/mongodb
