@@ -6,6 +6,10 @@ import * as authService from '../services/auth.service';
 export const signup = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
 
+  if (!name || !email || !password) {
+    return next(new AppError('Missing parameters!', 400));
+  }
+
   const savedUser = await authService.signup(name, email, password);
   if (!savedUser) return next(new AppError('Email already exists', 400));
 
@@ -24,7 +28,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     return next(new AppError('Please provide email and password!', 400));
   }
   const userInfo = await authService.signin(email, password);
-  if (!userInfo) return next(new AppError('Incorrect email or password', 401));
+  if (!userInfo) return next(new AppError('Incorrect email or password!', 401));
 
   res.status(200).json({
     status: 'success',

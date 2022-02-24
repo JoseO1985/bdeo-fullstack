@@ -5,7 +5,7 @@ import * as repositoryService from './repository.service';
 import { QueryFilterBuilder } from './query-filter-builder.service';
 import { splitAndConvertAgregation, getMaltHopsPipeline, getYeastPipeline } from '../util/agregations';
 
-const composeQuery = (name: string, queryFilterBuilder: QueryFilterBuilder) => {
+export const composeQuery = (name: string, queryFilterBuilder: QueryFilterBuilder) => {
   return queryFilterBuilder
   .setRegexFilter('name', name)
   .setRegexFilter('ingredients.malt.name', name)
@@ -17,15 +17,11 @@ const composeQuery = (name: string, queryFilterBuilder: QueryFilterBuilder) => {
 const isPrefix = (prefix: string, str: string) => str.toLowerCase().includes(prefix);
 const prefixPositionInArray = (prefix: string, ingredients: Ingredient[]) => ingredients.findIndex(ingred => isPrefix(prefix, ingred.name));
 
-
-
 export const filterByName = (data: { name: string, page: string, size: string, select: string | string[], sort: string, order: string }, queryFilterBuilder: QueryFilterBuilder) => {
   const { name, page, size, select, sort, order } = data;
   const composedOrQuery = composeQuery(name, queryFilterBuilder);
   return repositoryService.paginate(Beer, { page, size, select, sort, order }, composedOrQuery);
 };
-
-
 
 
 export const autocompleteName = async (name: string, queryFilterBuilder: QueryFilterBuilder) => {
@@ -42,11 +38,11 @@ const autocompleteResult = (beer: BeerDocument, normalizedName: string) => {
     if (isPrefix(normalizedName, beer.name))
       return { beer: beer.name };
     
-    const maltPrefixPosition = prefixPositionInArray(normalizedName, beer.ingredients.malt);
+    const maltPrefixPosition = beer.ingredients.malt ? prefixPositionInArray(normalizedName, beer.ingredients.malt) : -1;
     if (maltPrefixPosition !== -1)
       return { malt: beer.ingredients.malt[maltPrefixPosition].name} ;
 
-    const hopsPrefixIndex = prefixPositionInArray(normalizedName, beer.ingredients.hops);
+    const hopsPrefixIndex = beer.ingredients.hops ? prefixPositionInArray(normalizedName, beer.ingredients.hops) : -1;
     if (hopsPrefixIndex !== -1)
       return { hops: beer.ingredients.hops[hopsPrefixIndex].name };
 
@@ -57,33 +53,6 @@ const autocompleteResult = (beer: BeerDocument, normalizedName: string) => {
   return '';
 }
 
-/*export const mostRepeatedIngredients1 = (limit: number = 10) => {
-  return Beer.aggregate([
-    {
-      $project: {
-        items: { $concatArrays: ['$ingredients.malt', '$ingredients.hops'] }
-      }
-    },
-    { $unwind: '$items' },
-    { $sortByCount: '$items.name' },
-    { $limit: 10 },
-    { $project: { count: 1 } }
-  ]);
-};
-
-export const mostRepeatedIngredients2 = (limit: number = 10) => {
-  return Beer.aggregate([
-    {
-      $project: {
-        items: '$ingredients.yeast'
-      }
-    },
-    { $unwind: '$items' },
-    { $sortByCount: '$items' },
-    { $limit: 10 },
-    { $project: { count: 1 } }
-  ]);
-};*/
 
 export const mostRepeatedIngredients = (limit: number = 10) => {
   return Beer.aggregate([
